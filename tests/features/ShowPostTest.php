@@ -2,7 +2,7 @@
 
 use App\Post;
 
-class ShowPostTest extends TestCase
+class ShowPostTest extends FeatureTestCase
 {
     function test_a_user_can_see_the_post_details()
     {

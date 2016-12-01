@@ -19,6 +19,7 @@ class CreatePostsTest extends FeatureTestCase
         //Then / Entonces
         $this->seeInDatabase('posts', [
             'title'     => $title,
+            'slug'      => 'esta-es-una-pregunta',
             'content'   => $content,
             'pending'   => true,
             'user_id'   => $user->id,
