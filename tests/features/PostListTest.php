@@ -34,7 +34,7 @@ class PostListTest extends FeatureTestCase
             'title'         => 'Post más reciente',
             'created_at'    => Carbon::now(),
         ]);
-        
+
         $this->visit('/')
             ->see($last->title)
             ->dontSee($first->title)
