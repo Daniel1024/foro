@@ -168,6 +168,7 @@ return [
          */
 
         Styde\Html\HtmlServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         GrahamCampbell\Markdown\MarkdownServiceProvider::class,
 
@@ -229,6 +230,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Access' => Styde\Html\Facades\Access::class,
         'Markdown' => GrahamCampbell\Markdown\Facades\Markdown::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
     ],
 
