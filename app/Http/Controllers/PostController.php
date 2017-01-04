@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+    /*Creando un comentario*/
+
     public function index()
     {
         $posts = Post::orderBy('created_at', 'desc')
