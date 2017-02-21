@@ -6,7 +6,6 @@ class FeatureTestCase extends TestCase
 {
     use DatabaseTransactions;
 
-
     public function seeErrors(array $fields)
     {
         foreach ($fields as $name => $errors) {

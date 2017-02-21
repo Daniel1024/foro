@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Post;
+use Auth;
 use Illuminate\Http\Request;
 
 class CreatePostController extends Controller
@@ -19,9 +20,9 @@ class CreatePostController extends Controller
             'title'     => 'required',
             'content'   => 'required',
         ]);
-        $post = new Post($request->all());
-        auth()->user()->posts()->save($post);
 
-        return "Post: ".$post->title;
+        $post = Auth::user()->createPost($request->all());
+
+        return redirect($post->url);
     }
 }

@@ -32,10 +32,10 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 
     public function defaultUser(array $atributes = [])
     {
-        if ($this->defaultUser) {
-            return $this->defaultUser;
+        if ($this->defaultUser == null) {
+            $this->defaultUser = factory(User::class)->create($atributes);
         }
-        return $this->defaultUser = factory(User::class)->create($atributes);
+        return $this->defaultUser;
     }
 
     public function createPost(array $atributes = [])
