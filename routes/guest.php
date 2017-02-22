@@ -19,3 +19,8 @@ Route::post('login', [
     'uses' => 'TokenController@store',
     'as' => 'token'
 ]);
+
+Route::get('login/{token}', [
+    'uses' => 'LoginController@login',
+    'as' => 'login'
+]);

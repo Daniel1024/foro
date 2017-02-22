@@ -4,7 +4,7 @@ namespace App;
 
 use App\Mail\TokenMail;
 use Illuminate\Database\Eloquent\Model;
-use Mail;
+use Illuminate\Support\Facades\Mail;
 
 class Token extends Model
 {
@@ -13,6 +13,11 @@ class Token extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'token';
     }
 
     public static function generateFor(User $user)
