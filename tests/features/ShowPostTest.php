@@ -8,14 +8,14 @@ class ShowPostTest extends FeatureTestCase
         $post = $this->createPost([
             'title'     => 'Como instalar Laravel',
             'content'   => 'Este es el contenido del post',
-            'user_id'   => $this->defaultUser(['name' => 'Daniel Lopez'])->id,
+            'user_id'   => $this->defaultUser(['first_name' => 'Daniel', 'last_name' => 'López'])->id,
         ]);
 
         //when
         $this->visit($post->url)
             ->seeInElement('h1', $post->title)
             ->see($post->content)
-            ->see('Daniel Lopez');
+            ->see('Daniel López');
     }
 
     function test_old_urls_are_redirected()

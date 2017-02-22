@@ -16,9 +16,7 @@ Route::get('/', [
     'as'    => 'posts.index'
 ]);
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index');
+Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('posts/{post}-{slug}',[
     'as'    => 'posts.show',

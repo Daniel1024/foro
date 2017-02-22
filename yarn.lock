@@ -988,8 +988,8 @@ editorconfig@^0.13.2:
     sigmund "^1.0.1"
 
 electron-to-chromium@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.2.2.tgz#e41bc9488c88e3cfa1e94bde28e8420d7d47c47c"
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.2.3.tgz#4b4d04d237c301f72e2d15c2137b2b79f9f5ab76"
 
 elliptic@^6.0.0:
   version "6.3.3"
@@ -1998,8 +1998,8 @@ js-base64@^2.1.9:
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.1.9.tgz#f0e80ae039a4bd654b5f281fc93f04a914a7fcce"
 
 js-beautify@^1.6.3:
-  version "1.6.10"
-  resolved "https://registry.yarnpkg.com/js-beautify/-/js-beautify-1.6.10.tgz#7dc5d73014d088520e4768e618792f6b1df71cc6"
+  version "1.6.11"
+  resolved "https://registry.yarnpkg.com/js-beautify/-/js-beautify-1.6.11.tgz#538a22867e669250935bcdc7b90a8cd6386ddab6"
   dependencies:
     config-chain "~1.1.5"
     editorconfig "^0.13.2"
