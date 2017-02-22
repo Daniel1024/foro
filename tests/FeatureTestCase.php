@@ -1,10 +1,11 @@
 <?php
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\{CreatesApplication, TestsHelper};
 
 class FeatureTestCase extends TestCase
 {
-    use DatabaseTransactions;
+    use CreatesApplication, TestsHelper, DatabaseTransactions;
 
     public function seeErrors(array $fields)
     {
