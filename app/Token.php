@@ -3,8 +3,11 @@
 namespace App;
 
 use App\Mail\TokenMail;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\{
+    Auth, Mail
+};
 
 class Token extends Model
 {
@@ -33,8 +36,28 @@ class Token extends Model
         return $token;
     }
 
+    public static function findActive(string $token)
+    {
+        return static::query()
+            ->where('token', $token)
+            ->where('created_at', '>=', Carbon::parse('-30 minutes'))
+            ->first();
+    }
+
     public function sendByEmail()
     {
         Mail::to($this->user)->send(new TokenMail($this));
+    }
+
+    public function login()
+    {
+        Auth::login($this->user);
+
+        $this->delete();
+    }
+
+    public function getUrlAttribute()
+    {
+        return route('login', $this->token);
     }
 }
