@@ -11,7 +11,11 @@
 |
 */
 
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+use App\{
+    Category, Comment, Post, User
+};
+
+$factory->define(User::class, function (Faker\Generator $faker) {
     return [
         'username' => $faker->unique()->userName,
         'first_name' => $faker->firstName,
@@ -21,25 +25,34 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Post::class, function (Faker\Generator $faker) {
+$factory->define(Post::class, function (Faker\Generator $faker) {
     return [
         'title'     => $faker->sentence,
         'content'   => $faker->paragraph,
         'pending'   => true,
         'user_id'   => function () {
-            return factory(\App\User::class)->create()->id;
+            return factory(User::class)->create()->id;
+        },
+        'category_id' => function () {
+            return factory(Category::class)->create()->id;
         },
     ];
 });
 
-$factory->define(App\Comment::class, function (Faker\Generator $faker) {
+$factory->define(Comment::class, function (Faker\Generator $faker) {
     return [
         'comment' => $faker->paragraph(),
         'post_id' => function () {
-            return factory(\App\Post::class)->create()->id;
+            return factory(Post::class)->create()->id;
         },
         'user_id' => function () {
-            return factory(\App\User::class)->create()->id;
+            return factory(User::class)->create()->id;
         },
+    ];
+});
+
+$factory->define(Category::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->unique()->sentence,
     ];
 });

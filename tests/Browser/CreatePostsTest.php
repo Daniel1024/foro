@@ -2,7 +2,7 @@
 
 namespace Tests\Browser;
 
-use App\Post;
+use App\{Post, Category};
 use Tests\{DuskTestCase, TestsHelper};
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
@@ -18,12 +18,15 @@ class CreatePostsTest extends DuskTestCase
     {
         $user = $this->defaultUser();
 
+        $category = factory(Category::class)->create();
+
         //Having / Teniendo
-        $this->browse(function (Browser $browser) use ($user) {
+        $this->browse(function (Browser $browser) use ($user, $category) {
             $browser->loginAs($user)
                 ->visitRoute('posts.create')
                 ->type('title', $this->title)
                 ->type('content', $this->content)
+                ->select('category_id', (string) $category->id)
                 ->press('Publicar')
                 // Test a user is redirected to the posts details after creating it
                 ->assertPathIs('/posts/1-esta-es-una-pregunta');
@@ -31,11 +34,12 @@ class CreatePostsTest extends DuskTestCase
 
         //Then / Entonces
         $this->assertDatabaseHas('posts', [
-            'title'     => $this->title,
-            'slug'      => 'esta-es-una-pregunta',
-            'content'   => $this->content,
-            'pending'   => true,
-            'user_id'   => $user->id,
+            'title'         => $this->title,
+            'slug'          => 'esta-es-una-pregunta',
+            'content'       => $this->content,
+            'pending'       => true,
+            'user_id'       => $user->id,
+            'category_id'   => $category->id,
         ]);
 
         $post = Post::query()->orderBy('id', 'DESC')->first();
@@ -48,7 +52,7 @@ class CreatePostsTest extends DuskTestCase
 
     function test_creating_a_post_requires_authentication()
     {
-        $this->browse(function ($browser) {
+        $this->browse(function (Browser $browser) {
             $browser->visitRoute('posts.create')
                 ->assertRouteIs('token');
         });
@@ -62,8 +66,9 @@ class CreatePostsTest extends DuskTestCase
                 ->press('Publicar')
                 ->assertRouteIs('posts.create')
                 ->assertSeeErrors([
-                    'title'     => 'El campo título es obligatorio',
-                    'content'   => 'El campo contenido es obligatorio',
+                    'title'         => 'El campo título es obligatorio',
+                    'content'       => 'El campo contenido es obligatorio',
+                    'category_id'   => 'El campo categoria es obligatorio',
                 ]);
         });
 

@@ -1,6 +1,8 @@
 <?php
 
-use App\Post;
+use App\{
+    Category, Post
+};
 
 class CreatePostsTest extends FeatureTestCase
 {
@@ -12,19 +14,23 @@ class CreatePostsTest extends FeatureTestCase
 
         $this->actingAs($user = $this->defaultUser());
 
+        $category = factory(Category::class)->create();
+
         //When / Cuando
-        $this->visit(route('posts.create'))
+        $this->visitRoute('posts.create')
             ->type($title, 'title')
             ->type($content, 'content')
+            ->select($category->id, 'category_id')
             ->press('Publicar');
 
         //Then / Entonces
         $this->seeInDatabase('posts', [
-            'title'     => $title,
-            'slug'      => 'esta-es-una-pregunta',
-            'content'   => $content,
-            'pending'   => true,
-            'user_id'   => $user->id,
+            'title'         => $title,
+            'slug'          => 'esta-es-una-pregunta',
+            'content'       => $content,
+            'pending'       => true,
+            'user_id'       => $user->id,
+            'category_id'   => $category->id,
         ]);
 
         $post = Post::query()->orderBy('id', 'DESC')->first();
@@ -40,16 +46,16 @@ class CreatePostsTest extends FeatureTestCase
 
     function test_creating_a_post_requires_authentication()
     {
-        $this->visit(route('posts.create'))
-            ->seePageIs(route('token'));
+        $this->visitRoute('posts.create')
+            ->seeRouteIs('token');
     }
 
     function test_create_post_form_validation()
     {
         $this->actingAs($this->defaultUser())
-            ->visit(route('posts.create'))
+            ->visitRoute('posts.create')
             ->press('Publicar')
-            ->seePageIs(route('posts.create'))
+            ->seeRouteIs('posts.create')
             ->seeErrors([
                 'title'     => 'El campo título es obligatorio',
                 'content'   => 'El campo contenido es obligatorio',
