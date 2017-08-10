@@ -1,10 +1,25 @@
 <?php
 
-use Tests\{
-    CreatesApplication, TestsHelper
-};
-
-abstract class TestCase extends \Laravel\BrowserKitTesting\TestCase
+abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
-    use CreatesApplication, TestsHelper;
+    /**
+     * The base URL to use while testing the application.
+     *
+     * @var string
+     */
+    protected $baseUrl = 'http://foro.app';
+
+    /**
+     * Creates the application.
+     *
+     * @return \Illuminate\Foundation\Application
+     */
+    public function createApplication()
+    {
+        $app = require __DIR__.'/../bootstrap/app.php';
+
+        $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+
+        return $app;
+    }
 }

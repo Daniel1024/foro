@@ -9,9 +9,8 @@
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
-        <testsuite name="App">
+        <testsuite name="Application Test Suite">
             <directory suffix="Test.php">./tests</directory>
-            <exclude>./tests/Browser</exclude>
         </testsuite>
     </testsuites>
     <filter>
@@ -24,7 +23,6 @@
         <env name="CACHE_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
-        <env name="DB_CONNECTION" value="mysql_tests" />
-        <env name="MAIL_DRIVER" value="array" />
+        <env name="DB_CONNECTION" value="mysql_tests"/>
     </php>
 </phpunit>

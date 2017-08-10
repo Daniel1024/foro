@@ -1,5 +1,6 @@
 /node_modules
 /public/storage
+/storage/*.key
 /vendor
 /.idea
 Homestead.json
@@ -7,3 +8,5 @@ Homestead.yaml
 .env
 .phpstorm.meta.php
 _ide_helper.php
+composer.lock
+yarn.lock
