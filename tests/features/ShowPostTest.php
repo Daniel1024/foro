@@ -4,7 +4,7 @@ use App\{Post};
 
 class ShowPostTest extends FeatureTestCase
 {
-    function test_a_user_can_see_the_post_details()
+    public function test_a_user_can_see_the_post_details()
     {
         $name = 'Daniel López';
         $title = 'Como instalar Laravel';
@@ -21,9 +21,27 @@ class ShowPostTest extends FeatureTestCase
 
         $user->posts()->save($post);
 
-        $this->visit(route('posts.show', $post))
+        $this->visit($post->url)
             ->seeInElement('h1', $title)
             ->see($content)
             ->see($name);
+    }
+
+    public function test_old_urls_are_redirected()
+    {
+        $user = $this->defaultUser();
+
+        $post = factory(Post::class)->make([
+            'title' => 'Old Title',
+        ]);
+
+        $user->posts()->save($post);
+
+        $url = $post->url;
+
+        $post->update(['title' => 'New Title']);
+
+        $this->visit($url)
+            ->seePageIs($post->url);
     }
 }
