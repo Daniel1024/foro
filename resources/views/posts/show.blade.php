@@ -2,8 +2,22 @@
 
 @section('content')
     <h1>{{ $post->title }}</h1>
+
     {!! $post->safe_html_content !!}
+
     <p>{{ $post->user->name }}</p>
+
+    @if(Auth::check())
+        @if(Auth::user()->isSubscribedTo($post))
+            {!! Form::open(['route' => ['posts.unsubscribe', $post], 'method' => 'DELETE']) !!}
+                <button>Cancelar suscripción</button>
+            {!! Form::close() !!}
+        @else
+            {!! Form::open(['route' => ['posts.subscribe', $post], 'method' => 'POST']) !!}
+                <button>Suscribirse al post</button>
+            {!! Form::close() !!}
+        @endif
+    @endif
 
     <h4>Comentarios</h4>
 

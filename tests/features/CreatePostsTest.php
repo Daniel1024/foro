@@ -26,7 +26,14 @@ class CreatePostsTest extends FeatureTestCase
             'user_id' => $user->id,
         ]);
 
-        $this->see($title);
+        $post = \App\Post::query()->first();
+
+        $this->seeInDatabase('subscriptions', [
+            'user_id' => $user->id,
+            'post_id' => $post->id,
+        ]);
+
+        $this->seePageIs($post->url);
     }
 
     function test_creating_a_post_requires_authenication()
