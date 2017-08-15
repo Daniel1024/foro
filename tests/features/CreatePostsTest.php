@@ -1,6 +1,8 @@
 <?php
 
 
+use App\Post;
+
 class CreatePostsTest extends FeatureTestCase
 {
 
@@ -13,7 +15,7 @@ class CreatePostsTest extends FeatureTestCase
         $this->actingAs($user = $this->defaultUser());
 
         // When - Cuando
-        $this->visit(route('posts.create'))
+        $this->visitRoute('posts.create')
             ->type($title, 'title')
             ->type($content, 'content')
             ->press('Publicar');
@@ -26,7 +28,7 @@ class CreatePostsTest extends FeatureTestCase
             'user_id' => $user->id,
         ]);
 
-        $post = \App\Post::query()->first();
+        $post = Post::query()->first();
 
         $this->seeInDatabase('subscriptions', [
             'user_id' => $user->id,
@@ -39,8 +41,8 @@ class CreatePostsTest extends FeatureTestCase
     function test_creating_a_post_requires_authenication()
     {
         // Having - Teniendo
-        $this->visit(route('posts.create'))
-            ->seePageIs(route('login'));
+        $this->visitRoute('posts.create')
+            ->seeRouteIs('token');
     }
 
     function test_create_post_form_validation()

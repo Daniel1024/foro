@@ -9,7 +9,8 @@ class ShowPostTest extends FeatureTestCase
         $content = 'Este es el contenido del post';
 
         $user = $this->defaultUser([
-            'name' => $name,
+            'first_name' => 'Daniel',
+            'last_name' => 'López',
         ]);
 
         $post = $this->createPost([

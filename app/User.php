@@ -18,7 +18,10 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'email',
+        'username',
+        'first_name',
+        'last_name',
     ];
 
     /**
@@ -92,6 +95,24 @@ class User extends Authenticatable
     public function owns(Model $model)
     {
         return $this->id === $model->user_id;
+    }
+
+    /*public function setNameAttribute($value)
+    {
+        $arr = explode(' ', $value);
+
+        if (count($arr) == 2) {
+            $this->attributes['first_name'] = $arr[0];
+            $this->attributes['last_name'] = $arr[1];
+        } else {
+            $this->attributes['first_name'] = $arr[0];
+            $this->attributes['last_name'] = 'Apellido';
+        }
+    }*/
+
+    public function getNameAttribute()
+    {
+        return $this->first_name.' '.$this->last_name;
     }
 
 }
