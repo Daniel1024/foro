@@ -17,7 +17,7 @@ class CategoryTableSeeder extends Seeder
             'PHP',
             'Javascript',
             'Vue.js',
-            'CSS',
+            'CSS-3',
             'Sass',
             'Less',
             'Git',

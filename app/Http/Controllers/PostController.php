@@ -12,13 +12,18 @@ class PostController extends Controller
 
     public function index(Category $category = null, Request $request)
     {
+        $routeName = $request->route()->getName();
+
+        list($orderColum, $orderDirection) = $this->getListOrder($request->get('orden'));
 
         $posts = Post::query()
-            ->orderBy('created_at', 'DESC')
-            ->scopes($this->getListScopes($category, $request))
+            ->scopes($this->getListScopes($category, $routeName))
+            ->orderBy($orderColum, $orderDirection)
             ->paginate();
 
-        $categoryItems = $this->getCategoryItems();
+        $posts->appends(request()->intersect(['orden']));
+
+        $categoryItems = $this->getCategoryItems($routeName);
 
         //dd($posts->pluck('created_at')->toArray());
 
@@ -33,7 +38,7 @@ class PostController extends Controller
         return view('posts.show', compact('post'));
     }
 
-    protected function getCategoryItems()
+    protected function getCategoryItems(String $routeName)
     {
         return Category::query()
             ->orderBy('name')
@@ -46,15 +51,13 @@ class PostController extends Controller
             })->toArray();
     }
 
-    protected function getListScopes(Category $category, Request $request)
+    protected function getListScopes(Category $category, String $routeName)
     {
         $scopes = [];
 
         if ($category->exists) {
             $scopes['category'] = [$category];
         }
-
-        $routeName = $request->route()->getName();
 
         if ($routeName == 'posts.pending') {
             $scopes[] = 'pending';
@@ -65,5 +68,14 @@ class PostController extends Controller
         }
 
         return $scopes;
+    }
+
+    protected function getListOrder($order)
+    {
+        if ($order == 'antiguos') {
+            return ['created_at', 'asc'];
+        }
+
+        return ['created_at', 'desc'];
     }
 }

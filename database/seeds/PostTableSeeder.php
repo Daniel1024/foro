@@ -28,6 +28,7 @@ class PostTableSeeder extends Seeder
             factory(Post::class)->create([
                 'user_id' => $users->random()->id,
                 'category_id' => $categories->random()->id,
+                'created_at' => Carbon\Carbon::now()->subHours(rand(0, 720)),
             ]);
         }
     }
