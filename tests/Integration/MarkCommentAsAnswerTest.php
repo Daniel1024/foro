@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests\Integration;
+
+use Tests\TestCase;
 use App\Comment;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 

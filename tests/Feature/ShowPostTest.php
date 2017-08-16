@@ -1,5 +1,9 @@
 <?php
 
+namespace Tests\Feature;
+
+use Tests\FeatureTestCase;
+
 class ShowPostTest extends FeatureTestCase
 {
     public function test_a_user_can_see_the_post_details()

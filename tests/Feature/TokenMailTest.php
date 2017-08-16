@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests\Feature;
+
+use Tests\FeatureTestCase;
 use App\Mail\TokenMail;
 use App\{
     Token, User

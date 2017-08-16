@@ -1,7 +1,11 @@
 <?php
 
-use App\Comment;
-use App\User;
+namespace Tests\Feature;
+
+use Tests\FeatureTestCase;
+use App\{
+    Comment, User
+};
 
 class AcceptAnswerTest extends FeatureTestCase
 {

@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests\Unit;
+
+use Tests\TestCase;
 use App\Post;
 
 class PostModelTest extends TestCase

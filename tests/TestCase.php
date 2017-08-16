@@ -1,43 +1,13 @@
 <?php
 
-use App\Post;
-use App\User;
+namespace Tests;
 
-abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
+use Laravel\BrowserKitTesting\TestCase as BaseTestCase;
+
+abstract class TestCase extends BaseTestCase
 {
-    /**
-     * The base URL to use while testing the application.
-     *
-     * @var string
-     */
-    protected $baseUrl = 'http://foro.app';
-    protected $defaultUser;
+    use CreatesApplication, TestHelper;
 
-    /**
-     * Creates the application.
-     *
-     * @return \Illuminate\Foundation\Application
-     */
-    public function createApplication()
-    {
-        $app = require __DIR__.'/../bootstrap/app.php';
+    public $baseUrl = 'http://foro.app';
 
-        $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
-
-        return $app;
-    }
-
-    public function defaultUser(array $attributes = [])
-    {
-        /*if ($this->defaultUser) {
-            return $this->defaultUser;
-        }*/
-
-        return $this->defaultUser = factory(User::class)->create($attributes);
-    }
-
-    protected function createPost(array $attributes = [])
-    {
-        return factory(Post::class)->create($attributes);
-    }
 }

@@ -1,5 +1,9 @@
 <?php
 
+namespace Tests\Feature;
+
+use Tests\FeatureTestCase;
+
 use App\Token;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;

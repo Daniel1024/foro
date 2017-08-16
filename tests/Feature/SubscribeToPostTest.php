@@ -1,5 +1,9 @@
 <?php
 
+namespace Tests\Feature;
+
+use Tests\FeatureTestCase;
+
 class SubscribeToPostTest extends FeatureTestCase
 {
     public function test_a_user_can_subscribe_to_a_post()

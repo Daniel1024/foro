@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests\Feature;
+
+use Tests\FeatureTestCase;
 use Illuminate\Support\Facades\Notification;
 
 class WriteCommentTest extends FeatureTestCase

@@ -1,5 +1,9 @@
 <?php
 
+namespace Tests\Feature;
+
+use Tests\FeatureTestCase;
+
 class SupportMarkdownTest extends FeatureTestCase
 {
 
