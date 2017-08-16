@@ -28,7 +28,9 @@ class TokenController extends Controller
 
         Token::generateFor($user)->sendByEmail();
 
-        return redirect()->route('login_confirmation');
+        alert('Enviamos a tu correo electrónico un enlace para que inicies sesión');
+
+        return back();
     }
 
     public function confirm()

@@ -1,7 +1,7 @@
 <?php
 
-use App\Mail\TokenMail;
 use App\Token;
+use App\Mail\TokenMail;
 use Illuminate\Support\Facades\Mail;
 
 class RequestTokenTest extends FeatureTestCase
@@ -18,7 +18,9 @@ class RequestTokenTest extends FeatureTestCase
             ->press('Solicitar token');
 
         // then: a new token is created in the database
-        $token = Token::query()->where('user_id', $user->id)->first();
+        $token = Token::query()
+            ->where('user_id', $user->id)
+            ->first();
 
         $this->assertNotNull($token);
 
@@ -28,7 +30,7 @@ class RequestTokenTest extends FeatureTestCase
 
         $this->dontSeeIsAuthenticated();
 
-        $this->seeRouteIs('login_confirmation')
+        $this->seeRouteIs('token')
             ->see('Enviamos a tu correo electrónico un enlace para que inicies sesión');
 
     }

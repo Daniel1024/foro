@@ -9,6 +9,8 @@
                 <div class="panel-body">
                     {!! Form::open(['route' => 'token', 'method' => 'POST']) !!}
 
+                        {!! Alert::render() !!}
+
                         {!! Field::email('email') !!}
 
                         <div class="form-group">
