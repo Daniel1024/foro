@@ -2,7 +2,9 @@
 
 namespace Tests\Browser;
 
-use App\Post;
+use App\{
+    Category, Post
+};
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -17,13 +19,15 @@ class CreatePostsTest extends DuskTestCase
         $title = 'Esto es una pregunta';
         $content = 'Este es el contenido';
         $user = $this->defaultUser();
+        $category = factory(Category::class)->create();
 
-        $this->browse(function (Browser $browser) use ($title, $content, $user){
+        $this->browse(function (Browser $browser) use ($title, $content, $user, $category){
 
             $browser->loginAs($user)
                 ->visitRoute('posts.create')
                 ->type('title', $title)
                 ->type('content', $content)
+                ->select('category_id', $category->id)
                 ->press('Publicar')
                 ->assertPathIs('/posts/1-esto-es-una-pregunta');
         });
@@ -34,6 +38,7 @@ class CreatePostsTest extends DuskTestCase
             'content' => $content,
             'pending' => true,
             'user_id' => $user->id,
+            'category_id' => $category->id,
         ]);
 
         $post = Post::query()->first();

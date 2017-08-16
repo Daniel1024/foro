@@ -14,7 +14,7 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use App\{
-    Comment, Post, User
+    Category, Comment, Post, User
 };
 
 $factory->define(User::class, function (Faker\Generator $faker) {
@@ -23,6 +23,7 @@ $factory->define(User::class, function (Faker\Generator $faker) {
         'last_name' => $faker->lastName,
         'username' => $faker->unique()->userName,
         'email' => $faker->unique()->safeEmail,
+        'role' => 'user',
         'remember_token' => str_random(10),
     ];
 });
@@ -35,6 +36,9 @@ $factory->define(Post::class, function (Faker\Generator $faker) {
         'user_id' => function () {
             return factory(User::class)->create()->id;
         },
+        'category_id' => function () {
+            return factory(Category::class)->create()->id;
+        }
     ];
 });
 
@@ -47,5 +51,11 @@ $factory->define(Comment::class, function (Faker\Generator $faker) {
         'post_id' => function () {
             return factory(Post::class)->create()->id;
         },
+    ];
+});
+
+$factory->define(Category::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->unique()->sentence,
     ];
 });
