@@ -7,10 +7,10 @@ use App\{
 };
 use Illuminate\Http\Request;
 
-class PostController extends Controller
+class ListPostController extends Controller
 {
 
-    public function index(Category $category = null, Request $request)
+    public function __invoke(Category $category = null, Request $request)
     {
         $routeName = $request->route()->getName();
 
@@ -30,23 +30,16 @@ class PostController extends Controller
         return view('posts.index', compact('posts', 'category', 'categoryItems'));
     }
 
-    public function show(Post $post, $slug)
-    {
-        if ($post->slug != $slug) {
-            return redirect($post->url, 301);
-        }
-        return view('posts.show', compact('post'));
-    }
-
     protected function getCategoryItems(String $routeName)
     {
         return Category::query()
             ->orderBy('name')
             ->get()
-            ->map(function ($category) {
+            ->map(function ($category) use ($routeName) {
                 return [
                     'title' => $category->name,
-                    'full_url' => route('posts.index', $category)
+                    'full_url' => route($routeName, $category)
+                    //'full_url' => route('posts.index', $category)
                 ];
             })->toArray();
     }
