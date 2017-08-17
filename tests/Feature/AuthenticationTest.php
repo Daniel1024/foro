@@ -2,10 +2,9 @@
 
 namespace Tests\Feature;
 
-use Tests\FeatureTestCase;
-
 use App\Token;
 use Carbon\Carbon;
+use Tests\FeatureTestCase;
 use Illuminate\Support\Facades\Auth;
 
 class AuthenticationTest extends FeatureTestCase
