@@ -8,7 +8,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-xs-8">
             <p>
                 Publicado por <a href="#">{{ $post->user->name }}</a>
                 {{ $post->created_at->diffForHumans() }}
@@ -20,16 +20,24 @@
                 @endif
             </p>
 
+            <div>
+                <form>
+                    <button class="btn btn-default">+1</button>
+                    Puntuación actual: <strong id="current-score">5</strong>
+                    <button class="btn btn-default">-1</button>
+                </form>
+            </div>
+
             {!! $post->safe_html_content !!}
 
             @if (auth()->check())
                 @if (!Auth::user()->isSubscribedTo($post))
                     {!! Form::open(['route' => ['posts.subscribe', $post], 'method' => 'POST']) !!}
-                    <button>Suscribirse al post</button>
+                    <button class="btn btn-default">Suscribirse al post</button>
                     {!! Form::close() !!}
                 @else
                     {!! Form::open(['route' => ['posts.unsubscribe', $post], 'method' => 'DELETE']) !!}
-                    <button>Desuscribirse del post</button>
+                    <button class="btn btn-default">Desuscribirse del post</button>
                     {!! Form::close() !!}
                 @endif
             @endif
