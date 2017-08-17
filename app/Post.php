@@ -13,6 +13,7 @@ class Post extends Model
 
     protected $casts = [
         'pending' => 'boolean',
+        'score' => 'integer',
     ];
 
     public function user()

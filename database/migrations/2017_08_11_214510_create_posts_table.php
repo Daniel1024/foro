@@ -28,6 +28,8 @@ class CreatePostsTable extends Migration
             $table->unsignedInteger('answer_id')
                 ->nullable();
 
+            $table->integer('score')->default(0);
+
             $table->timestamps();
         });
     }

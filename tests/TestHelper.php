@@ -27,4 +27,15 @@ trait TestHelper
         return factory(Post::class)->create($attributes);
     }
 
+    protected function anyone(array $attributes = [])
+    {
+        return factory(User::class)->create($attributes);
+    }
+    protected function actingAsAnyone(array $attributes = [])
+    {
+        $user = $this->anyone($attributes);
+        $this->actingAs($user);
+        return $user;
+    }
+
 }

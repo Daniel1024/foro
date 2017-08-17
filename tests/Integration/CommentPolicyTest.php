@@ -2,10 +2,10 @@
 
 namespace Tests\Integration;
 
-use Tests\TestCase;
 use App\{
     Comment, User
 };
+use Tests\TestCase;
 use App\Policies\CommentPolicy;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
