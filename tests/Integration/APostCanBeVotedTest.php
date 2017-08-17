@@ -2,15 +2,22 @@
 
 namespace Tests\Integration;
 
-use App\Vote;
 use Tests\TestCase;
+use App\{Post, User, Vote};
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class APostCanBeVotedTest extends TestCase
 {
     use DatabaseTransactions;
 
+    /**
+     * @var User
+     */
     protected $user;
+
+    /**
+     * @var Post
+     */
     protected $post;
 
     function setUp()
@@ -26,7 +33,7 @@ class APostCanBeVotedTest extends TestCase
 
     public function test_a_post_can_be_upvoted()
     {
-        Vote::upvote($this->post);
+        $this->post->upvote();
 
         $this->seeInDatabase('votes', [
             'post_id' => $this->post->id,
@@ -39,7 +46,7 @@ class APostCanBeVotedTest extends TestCase
 
     public function test_a_post_can_be_downvoted()
     {
-        Vote::downvote($this->post);
+        $this->post->downvote();
 
         $this->seeInDatabase('votes', [
             'post_id' => $this->post->id,
@@ -52,44 +59,44 @@ class APostCanBeVotedTest extends TestCase
 
     public function test_a_post_cannot_be_upvoted_twice_by_the_same_user()
     {
-        Vote::upvote($this->post);
+        $this->post->upvote();
 
-        Vote::upvote($this->post);
+        $this->post->upvote();
 
-        $this->assertSame(1, Vote::query()->count());
+        $this->assertSame(1, $this->post->query()->count());
 
         $this->assertSame(1, $this->post->score);
     }
 
     public function test_a_post_cannot_be_downvoted_twice_by_the_same_user()
     {
-        Vote::downvote($this->post);
+        $this->post->downvote();
 
-        Vote::downvote($this->post);
+        $this->post->downvote();
 
-        $this->assertSame(1, Vote::query()->count());
+        $this->assertSame(1, $this->post->query()->count());
 
         $this->assertSame(-1, $this->post->score);
     }
 
     public function test_a_user_can_switch_from_upvote_to_downvote()
     {
-        Vote::upvote($this->post);
+        $this->post->upvote();
 
-        Vote::downvote($this->post);
+        $this->post->downvote();
 
-        $this->assertSame(1, Vote::query()->count());
+        $this->assertSame(1, $this->post->query()->count());
 
         $this->assertSame(-1, $this->post->score);
     }
 
     public function test_a_user_can_switch_from_downvote_to_upvote()
     {
-        Vote::downvote($this->post);
+        $this->post->downvote();
 
-        Vote::upvote($this->post);
+        $this->post->upvote();
 
-        $this->assertSame(1, Vote::query()->count());
+        $this->assertSame(1, $this->post->query()->count());
 
         $this->assertSame(1, $this->post->score);
     }
@@ -102,7 +109,7 @@ class APostCanBeVotedTest extends TestCase
             'vote' => 1,
         ]);
 
-        Vote::upvote($this->post);
+        $this->post->upvote();
 
         $this->assertSame(2, Vote::query()->count());
 
@@ -111,9 +118,9 @@ class APostCanBeVotedTest extends TestCase
 
     public function test_a_post_can_be_unvoted()
     {
-        Vote::upvote($this->post);
+        $this->post->upvote();
 
-        Vote::undoVote($this->post);
+        $this->post->undoVote();
 
         $this->dontSeeInDatabase('votes', [
             'post_id' => $this->post->id,

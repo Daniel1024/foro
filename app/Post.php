@@ -2,13 +2,14 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
-use Markdown;
+use Illuminate\Database\Eloquent\Model;
+use GrahamCampbell\Markdown\Facades\Markdown;
 
 class Post extends Model
 {
+    use CanBeVoted;
+
     protected $fillable = ['title', 'content', 'category_id'];
 
     protected $casts = [

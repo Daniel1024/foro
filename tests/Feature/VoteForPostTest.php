@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Vote;
 use Tests\FeatureTestCase;
+use app\Repositories\VoteRepository;
 
 class VoteForPostTest extends FeatureTestCase
 {
@@ -51,7 +51,7 @@ class VoteForPostTest extends FeatureTestCase
 
         $post = $this->createPost();
 
-        Vote::upvote($post);
+        $post->upvote();
 
         $this->deleteJson($post->url . '/vote')
             ->seeStatusCode(200)
