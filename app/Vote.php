@@ -28,9 +28,26 @@ class Vote extends Model
                 ['vote' => $amount]
             );
 
-        $post->score = static::query()->where(['post_id' => $post->id])->sum('vote');
+        static::refreshPostScore($post);
+    }
+
+    public static function undoVote(Post $post)
+    {
+        static::query()
+            ->where([
+                'post_id' => $post->id,
+                'user_id' => Auth::id()]
+            )->delete();
+
+        static::refreshPostScore($post);
+    }
+
+    protected static function refreshPostScore(Post $post)
+    {
+        $post->score = static::query()
+            ->where(['post_id' => $post->id])
+            ->sum('vote');
 
         $post->save();
     }
-
 }

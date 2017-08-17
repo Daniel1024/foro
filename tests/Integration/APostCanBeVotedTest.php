@@ -109,4 +109,19 @@ class APostCanBeVotedTest extends TestCase
         $this->assertSame(2, $this->post->score);
     }
 
+    public function test_a_post_can_be_unvoted()
+    {
+        Vote::upvote($this->post);
+
+        Vote::undoVote($this->post);
+
+        $this->dontSeeInDatabase('votes', [
+            'post_id' => $this->post->id,
+            'user_id' => $this->user->id,
+            'vote' => 1,
+        ]);
+
+        $this->assertSame(0, $this->post->score);
+    }
+
 }
