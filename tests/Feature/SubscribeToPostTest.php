@@ -44,7 +44,7 @@ class SubscribeToPostTest extends FeatureTestCase
 
         // When
         $this->visit($post->url)
-            ->press('Cancelar suscripción');
+            ->press('Desuscribirse del post');
 
         $this->dontSeeInDatabase('subscriptions', [
             'user_id' => $user->id,

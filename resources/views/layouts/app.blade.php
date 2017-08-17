@@ -42,10 +42,7 @@
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
-                        <li><a href="{{ route('posts.index') }}">Ver posts</a></li>
-                        <li><a href="{{ route('posts.create') }}">Crear posts</a></li>
-                    </ul>
+                {!! Menu::make(trans('menu.main'), 'nav navbar-nav') !!}
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">

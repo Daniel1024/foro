@@ -9,12 +9,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-2">
-            <h4>Filtros</h4>
-            {{--{!! Menu::make(trans('menu.filters'), 'nav nav-pills nav-stacked filters') !!}--}}
-            <h4>Categorías</h4>
-            {!! Menu::make($categoryItems, 'nav nav-pills nav-stacked categories') !!}
-        </div>
+        @include('posts.sidebar')
         <div class="col-xs-10">
             {!! Form::open(['method' => 'get', 'class' => 'form form-inline']) !!}
                 {!! Form::select(
