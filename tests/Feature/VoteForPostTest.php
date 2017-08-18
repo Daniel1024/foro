@@ -13,7 +13,7 @@ class VoteForPostTest extends FeatureTestCase
 
         $post = $this->createPost();
 
-        $this->postJson($post->url . '/upvote')
+        $this->postJson("/posts/{$post->id}/upvote")
             ->seeStatusCode(200)
             ->seeJson(['new_score' => 1]);
 
@@ -32,7 +32,7 @@ class VoteForPostTest extends FeatureTestCase
 
         $post = $this->createPost();
 
-        $this->postJson($post->url . '/downvote')
+        $this->postJson("/posts/{$post->id}/downvote")
             ->seeStatusCode(200)
             ->seeJson(['new_score' => -1]);
 
@@ -53,7 +53,7 @@ class VoteForPostTest extends FeatureTestCase
 
         $post->upvote();
 
-        $this->deleteJson($post->url . '/vote')
+        $this->deleteJson("/posts/{$post->id}/vote")
             ->seeStatusCode(200)
             ->seeJson(['new_score' => 0]);
 
@@ -74,7 +74,7 @@ class VoteForPostTest extends FeatureTestCase
 
         $post = $this->createPost();
 
-        $this->postJson($post->url . '/downvote')
+        $this->postJson("/posts/{$post->id}/downvote")
             ->seeStatusCode(401)
             ->seeJson(['error' => 'Unauthenticated.']);
 

@@ -3,10 +3,12 @@
         <form>
             <button @click.prevent="addVote(1)"
                     :class="currentVote == 1 ? 'btn-primary' : 'btn-default'"
+                    :disabled="voteInProgress"
                     class="btn">+1</button>
             Puntuación actual: <strong id="current-score">{{ currentScore }}</strong>
             <button @click.prevent="addVote(-1)"
                     :class="currentVote == -1 ? 'btn-primary' : 'btn-default'"
+                    :disabled="voteInProgress"
                     class="btn">-1</button>
         </form>
     </div>
@@ -14,28 +16,46 @@
 
 <script>
     export default {
-        props: ['score', 'vote'],
+        props: ['score', 'vote', 'post_id'],
         data() {
             return {
                 currentVote: this.vote ? parseInt(this.vote) : null,
-                currentScore: parseInt(this.score)
+                currentScore: parseInt(this.score),
+                voteInProgress: false
             }
         },
         methods: {
             addVote(amount) {
-                if (this.currentVote === amount) {
-                    this.currentScore -= this.currentVote;
+                this.voteInProgress = true;
 
-                    axios.delete(window.location.href + '/vote');
+                if (this.currentVote === amount) {
+                    this.processRequest('delete', 'vote');
 
                     this.currentVote = null;
                 } else {
-                    this.currentScore += this.currentVote ? (amount*2) : amount;
-
-                    axios.post(window.location.href + (amount === 1 ? '/upvote' : '/downvote'));
+                    this.processRequest('post', amount);
 
                     this.currentVote = amount;
                 }
+            },
+            processRequest(method, action) {
+                window.axios[method](this.buildUrl(action)).then((response) => {
+                    this.currentScore = response.data.new_score;
+
+                    this.voteInProgress = false;
+                }).catch((thrown) => {
+                    alert('Ocurrió un error! '+ thrown);
+
+                    this.voteInProgress = false;
+                });
+            },
+            buildUrl(action) {
+                if (action === 1) {
+                    action = 'upvote';
+                } else if (action === -1) {
+                    action = 'downvote';
+                }
+                return '/posts/'+ this.post_id + '/' + action;
             }
         }
 

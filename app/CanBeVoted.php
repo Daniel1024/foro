@@ -3,9 +3,14 @@
 namespace App;
 
 use Illuminate\Support\Facades\Auth;
+use Collective\Html\HtmlFacade as Html;
 
 trait CanBeVoted
 {
+    public function votes()
+    {
+        return $this->hasMany(Vote::class);
+    }
 
     public function getCurrentVoteAttribute()
     {
@@ -15,11 +20,25 @@ trait CanBeVoted
         return null;
     }
 
+    public function getVoteComponentAttribute()
+    {
+        return Html::tag('app-vote', '', [
+            'post_id' => $this->id,
+            'score' => $this->score,
+            'vote' => $this->current_vote,
+        ]);
+    }
+
     public function getVoteFrom(User $user)
     {
-        return Vote::query()
+        return $this->votes()
             ->where('user_id', $user->id)
             ->value('vote');
+
+        /*return Vote::query()
+            ->where('user_id', $user->id)
+            ->where('post_id', $this->id)
+            ->value('vote');*/
     }
 
     public function upvote()
@@ -35,7 +54,7 @@ trait CanBeVoted
 
     protected function addVote($amount)
     {
-        Vote::query()
+        $this->votes()
             ->updateOrCreate(
                 ['post_id' => $this->id, 'user_id' => Auth::id()],
                 ['vote' => $amount]
@@ -46,11 +65,14 @@ trait CanBeVoted
 
     public function undoVote()
     {
-        Vote::query()
+        $this->votes()
+            ->where('user_id', Auth::id())
+            ->delete();
+        /*Vote::query()
             ->where([
-                    'post_id' => $this->id,
-                    'user_id' => Auth::id()]
-            )->delete();
+                'post_id' => $this->id,
+                'user_id' => Auth::id()]
+            )->delete();*/
 
         $this->refreshPostScore();
     }
