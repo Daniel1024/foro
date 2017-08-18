@@ -41946,7 +41946,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['score', 'vote', 'post_id'],
+    props: ['score', 'vote', 'id', 'module'],
     data: function data() {
         return {
             currentVote: this.vote ? parseInt(this.vote) : null,
@@ -41988,7 +41988,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             } else if (action === -1) {
                 action = 'downvote';
             }
-            return '/posts/' + this.post_id + '/' + action;
+            return '/' + this.module + '/' + this.id + '/' + action;
         }
     }
 
@@ -42012,9 +42012,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("+1")]), _vm._v("\n        Puntuación actual: "), _c('strong', {
-    attrs: {
-      "id": "current-score"
-    }
+    staticClass: "current-score"
   }, [_vm._v(_vm._s(_vm.currentScore))]), _vm._v(" "), _c('button', {
     staticClass: "btn",
     class: _vm.currentVote == -1 ? 'btn-primary' : 'btn-default',

@@ -12,30 +12,30 @@ Route::post('posts/create', [
 ]);
 
 // Votes
-Route::post('posts/{post}/upvote', [
-    'uses' => 'VotePostController@upvote',
+Route::pattern('module', '[a-z]+');
+
+Route::bind('votable', function ($votableId, $route) {
+    $modules = [
+        'posts' => \App\Post::class,
+        'comments' => \App\Comment::class,
+    ];
+
+    $model = $modules[$route->parameter('module')] ?? abort(404);
+
+    return $model::findOrFail($votableId);
+
+});
+
+Route::post('{module}/{votable}/upvote', [
+    'uses' => 'VoteController@upvote',
 ]);
 
-Route::post('posts/{post}/downvote', [
-    'uses' => 'VotePostController@downvote',
+Route::post('{module}/{votable}/downvote', [
+    'uses' => 'VoteController@downvote',
 ]);
 
-Route::delete('posts/{post}/vote', [
-    'uses' => 'VotePostController@undovote',
-]);
-
-// Comment
-
-Route::post('comments/{comment}/upvote', [
-    'uses' => 'VoteCommentController@upvote',
-]);
-
-Route::post('comments/{comment}/downvote', [
-    'uses' => 'VoteCommentController@downvote',
-]);
-
-Route::delete('comments/{comment}/vote', [
-    'uses' => 'VoteCommentController@undovote',
+Route::delete('{module}/{votable}/vote', [
+    'uses' => 'VoteController@undovote',
 ]);
 
 Route::post('posts/{post}/comment', [

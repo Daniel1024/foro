@@ -21,7 +21,7 @@ class VoteForCommentTest extends FeatureTestCase
 
     public function test_a_user_can_upvote_for_a_comment()
     {
-        $this->postJson("comments/{$this->comment->id}/upvote")
+        $this->postJson("/comments/{$this->comment->id}/upvote")
             ->seeStatusCode(200)
             ->seeJson(['new_score' => '1']);
 
@@ -33,7 +33,7 @@ class VoteForCommentTest extends FeatureTestCase
 
     public function test_a_user_can_downvote_for_a_comment()
     {
-        $this->postJson("comments/{$this->comment->id}/downvote")
+        $this->postJson("/comments/{$this->comment->id}/downvote")
             ->seeStatusCode(200)
             ->seeJson(['new_score' => '-1']);
 
@@ -47,7 +47,7 @@ class VoteForCommentTest extends FeatureTestCase
     {
         $this->comment->upvote();
 
-        $this->deleteJson("comments/{$this->comment->id}/vote")
+        $this->deleteJson("/comments/{$this->comment->id}/vote")
             ->seeStatusCode(200)
             ->seeJson(['new_score' => 0]);
 
@@ -61,7 +61,7 @@ class VoteForCommentTest extends FeatureTestCase
     {
         \Auth::logout();
 
-        $this->postJson("comments/{$this->comment->id}/upvote")
+        $this->postJson("/comments/{$this->comment->id}/upvote")
             ->seeStatusCode(401)
             ->seeJson(['error' => 'Unauthenticated.']);
 
