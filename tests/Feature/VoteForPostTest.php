@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Post;
 use Tests\FeatureTestCase;
-use app\Repositories\VoteRepository;
 
 class VoteForPostTest extends FeatureTestCase
 {
@@ -18,7 +18,8 @@ class VoteForPostTest extends FeatureTestCase
             ->seeJson(['new_score' => 1]);
 
         $this->seeInDatabase('votes', [
-            'post_id' => $post->id,
+            'votable_id' => $post->id,
+            'votable_type' => Post::class,
             'user_id' => $user->id,
             'vote' => 1,
         ]);
@@ -37,7 +38,8 @@ class VoteForPostTest extends FeatureTestCase
             ->seeJson(['new_score' => -1]);
 
         $this->seeInDatabase('votes', [
-            'post_id' => $post->id,
+            'votable_id' => $post->id,
+            'votable_type' => Post::class,
             'user_id' => $user->id,
             'vote' => -1,
         ]);
@@ -58,7 +60,8 @@ class VoteForPostTest extends FeatureTestCase
             ->seeJson(['new_score' => 0]);
 
         $this->dontSeeInDatabase('votes', [
-            'post_id' => $post->id,
+            'votable_id' => $post->id,
+            'votable_type' => Post::class,
             'user_id' => $user->id,
         ]);
 
@@ -79,7 +82,8 @@ class VoteForPostTest extends FeatureTestCase
             ->seeJson(['error' => 'Unauthenticated.']);
 
         $this->dontSeeInDatabase('votes', [
-            'post_id' => $post->id,
+            'votable_id' => $post->id,
+            'votable_type' => Post::class,
             'user_id' => $user->id,
         ]);
 

@@ -9,7 +9,7 @@ trait CanBeVoted
 {
     public function votes()
     {
-        return $this->hasMany(Vote::class);
+        return $this->morphMany(Vote::class, 'votable');
     }
 
     public function getCurrentVoteAttribute()
@@ -22,11 +22,16 @@ trait CanBeVoted
 
     public function getVoteComponentAttribute()
     {
-        return Html::tag('app-vote', '', [
-            'post_id' => $this->id,
-            'score' => $this->score,
-            'vote' => $this->current_vote,
-        ]);
+        if (Auth::check()) {
+            return Html::tag('app-vote', '', [
+                'module' => $this->getTable(),
+                'id' => $this->id,
+                'score' => $this->score,
+                'vote' => $this->current_vote,
+            ]);
+        }
+
+        return '';
     }
 
     public function getVoteFrom(User $user)
@@ -56,7 +61,7 @@ trait CanBeVoted
     {
         $this->votes()
             ->updateOrCreate(
-                ['post_id' => $this->id, 'user_id' => Auth::id()],
+                ['user_id' => Auth::id()],
                 ['vote' => $amount]
             );
 
@@ -79,8 +84,7 @@ trait CanBeVoted
 
     protected function refreshPostScore()
     {
-        $this->score = Vote::query()
-            ->where(['post_id' => $this->id])
+        $this->score = $this->votes()
             ->sum('vote');
 
         $this->save();

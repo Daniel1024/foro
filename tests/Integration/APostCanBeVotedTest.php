@@ -35,11 +35,13 @@ class APostCanBeVotedTest extends TestCase
     {
         $this->post->upvote();
 
-        $this->seeInDatabase('votes', [
+        /*$this->seeInDatabase('votes', [
             'post_id' => $this->post->id,
             'user_id' => $this->user->id,
             'vote' => 1,
-        ]);
+        ]);*/
+
+        $this->assertSame(1, $this->post->current_vote);
 
         $this->assertSame(1, $this->post->score);
     }
@@ -48,11 +50,13 @@ class APostCanBeVotedTest extends TestCase
     {
         $this->post->downvote();
 
-        $this->seeInDatabase('votes', [
+        /*$this->seeInDatabase('votes', [
             'post_id' => $this->post->id,
             'user_id' => $this->user->id,
             'vote' => -1,
-        ]);
+        ]);*/
+
+        $this->assertSame(-1, $this->post->current_vote);
 
         $this->assertSame(-1, $this->post->score);
     }
@@ -103,11 +107,16 @@ class APostCanBeVotedTest extends TestCase
 
     public function test_the_post_score_is_calculated_correctly()
     {
-        Vote::query()->create([
-            'post_id' => $this->post->id,
+        $this->post->votes()->create([
             'user_id' => $this->anyone()->id,
             'vote' => 1,
         ]);
+
+        /*Vote::query()->create([
+            'post_id' => $this->post->id,
+            'user_id' => $this->anyone()->id,
+            'vote' => 1,
+        ]);*/
 
         $this->post->upvote();
 
@@ -122,11 +131,13 @@ class APostCanBeVotedTest extends TestCase
 
         $this->post->undoVote();
 
-        $this->dontSeeInDatabase('votes', [
+        /*$this->dontSeeInDatabase('votes', [
             'post_id' => $this->post->id,
             'user_id' => $this->user->id,
             'vote' => 1,
-        ]);
+        ]);*/
+
+        $this->assertNull($this->post->current_vote);
 
         $this->assertSame(0, $this->post->score);
     }
