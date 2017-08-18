@@ -7,7 +7,20 @@ use Illuminate\Support\Facades\Auth;
 trait CanBeVoted
 {
 
-    // Votes:
+    public function getCurrentVoteAttribute()
+    {
+        if (Auth::check()) {
+            return $this->getVoteFrom(Auth::user());
+        }
+        return null;
+    }
+
+    public function getVoteFrom(User $user)
+    {
+        return Vote::query()
+            ->where('user_id', $user->id)
+            ->value('vote');
+    }
 
     public function upvote()
     {
