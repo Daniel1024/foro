@@ -1,5 +1,11 @@
 <?php
 
+Route::post('logout', function () {
+    Auth::logout();
+
+    return redirect('/');
+});
+
 // Posts
 Route::get('posts/create', [
     'uses' => 'CreatePostController@create',

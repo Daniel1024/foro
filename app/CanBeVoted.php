@@ -12,10 +12,17 @@ trait CanBeVoted
         return $this->morphMany(Vote::class, 'votable');
     }
 
+    public function userVote()
+    {
+        return $this->morphOne(Vote::class, 'votable')
+            ->where('user_id', Auth::id())
+            ->withDefault();
+    }
+
     public function getCurrentVoteAttribute()
     {
         if (Auth::check()) {
-            return $this->getVoteFrom(Auth::user());
+            return $this->userVote->vote;
         }
         return null;
     }
@@ -39,11 +46,6 @@ trait CanBeVoted
         return $this->votes()
             ->where('user_id', $user->id)
             ->value('vote');
-
-        /*return Vote::query()
-            ->where('user_id', $user->id)
-            ->where('post_id', $this->id)
-            ->value('vote');*/
     }
 
     public function upvote()

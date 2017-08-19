@@ -16,7 +16,7 @@ class AdminTableSeeder extends Seeder
             'first_name' => 'Daniel',
             'last_name' => 'López',
             'username' => 'daniel1024',
-            'email' => 'admin@daniel.net',
+            'email' => 'd.lopez.1740@gmail.com',
             'role' => 'admin'
         ]);
     }

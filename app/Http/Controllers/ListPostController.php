@@ -6,6 +6,7 @@ use App\{
     Category, Post
 };
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ListPostController extends Controller
 {
@@ -16,6 +17,9 @@ class ListPostController extends Controller
 
         $posts = Post::query()
             ->with(['user', 'category'])
+            ->when(Auth::check(), function ($q) {
+                $q->with(['userVote']);
+            })
             ->category($category)
             ->scopes($this->getRouteScope($request))
             ->orderBy($orderColum, $orderDirection)
