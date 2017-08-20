@@ -1,10 +1,6 @@
 <?php
 
-Route::post('logout', function () {
-    Auth::logout();
-
-    return redirect('/');
-});
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
 // Posts
 Route::get('posts/create', [

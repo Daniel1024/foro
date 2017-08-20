@@ -44,7 +44,7 @@
 
                     this.voteInProgress = false;
                 }).catch((thrown) => {
-                    alert('Ocurrió un error! '+ thrown);
+                    //alert('Ocurrió un error! '+ thrown);
 
                     this.voteInProgress = false;
                 });
